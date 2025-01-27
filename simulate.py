@@ -3,6 +3,10 @@ import time
 
 physicsClient = p.connect(p.GUI)
 
+# Read in the world described in box.sdf
+p.loadSDF("box.sdf")
+
+
 # Slow things down to see simulated world 
 for i in range(1000):
 	p.stepSimulation()
