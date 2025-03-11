@@ -43,6 +43,20 @@ class NEURON:
     def Is_Sensor_Neuron(self):
 
         return self.type == c.SENSOR_NEURON
+    
+    def Update_Sensor_Neuron(self):
+        #self.Set_Value(pyrosim.Get_Touch_Sensor_Value_For_Link(self.Get_Link_Name()))
+       
+       
+        # Fetch the sensor value for the link
+        sensor_value = pyrosim.Get_Touch_Sensor_Value_For_Link(self.Get_Link_Name())
+        
+        # Print the value to check if it's updating correctly
+        print(f"Sensor value for {self.Get_Link_Name()}: {sensor_value}")
+        
+        # Update the neuron with the fetched value
+        self.Set_Value(sensor_value)
+
 
     def Is_Hidden_Neuron(self):
 
@@ -66,6 +80,36 @@ class NEURON:
 
         self.value = value
 
+    def Update_Hidden_Or_Motor_Neuron(self, neurons, synapses):
+        self.Set_Value(0.0)
+
+        # The name of the currently updating nueron
+        #print(self.Get_Name())
+
+        # Print the neuron's initial value before the for loop
+        #print("Before loop:", self.Get_Value())
+        
+        # IF statement printing the names of the pre and postsynaptic neurons of the current synapse
+        for key in synapses:
+            # Check to see if second element in tuple = the currently updating neuron
+            if (key[1] == self.Get_Name()):
+
+                # Get weight of current synpase
+                weight = synapses[key].Get_Weight()
+
+                # Get value of the presynaptic neuron
+                value = neurons[key[0]].Get_Value()
+                self.Allow_Presynaptic_Neuron_To_Influence_Me(weight, value)
+
+                print(f"Pre: {key[0]}, Post: {key[1]}, Weight: {weight}, Pre Value: {value}")
+
+        #self.Threshold()
+
+        #Print the neuron's value after the for loop
+        #print("After loop:", self.Get_Value())
+
+    def Allow_Presynaptic_Neuron_To_Influence_Me(self, weight, value):
+        self.Add_To_Value(weight * value)
 # -------------------------- Private methods -------------------------
 
     def Determine_Name(self,line):

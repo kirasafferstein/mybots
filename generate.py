@@ -1,50 +1,57 @@
 import pyrosim.pyrosim as pyrosim
-import pyrosim.pyrosim as pyrosim
 
-# Tell pyrosim name of the file where information should be stored
-pyrosim.Start_SDF("boxes.sdf")
+def Create_World():	
 
-# Set initial block dimensions
-base_length = 1
-base_width = 1
-base_height = 1
+	# Tell pyrosim name of the file where information should be stored
+	pyrosim.Start_SDF("world.sdf")
 
-# Initial position for the first tower's base
-base_x = 0
-base_y = 0
-base_z = base_height / 2  # Bottom of the block on the floor
+	# Create a single block at the origin
+	pyrosim.Send_Cube(name="Box", pos=[0, -2, 0.5], size=[1, 1, 1])
 
-# Create 25 towers using 3 nested loops
-for row in range(5):  # 5 rows
-    for col in range(5):  # 5 columns
-        # Set the base position for the current tower
-        x = base_x + col * base_length 
-        y = base_y + row * base_width 
-        z = base_z  # Starting height of the tower
+	pyrosim.End()
 
-        # Reset block dimensions for the current tower
-        length = base_length
-        width = base_width
-        height = base_height
+def Generate_Body():
+	pyrosim.Start_URDF("body.urdf")
+	
+	# Create torso
+	pyrosim.Send_Cube(name="Torso", pos=[1.5, 0.0, 1.5], size=[1,1,1])
+	
+	# Create joints to connect torso and BackLeg
+	pyrosim.Send_Joint( name = "Torso_BackLeg" , parent= "Torso" , child = "BackLeg", type = "revolute", position = [1.0,0,1.0])
 
-        # Create a tower with 10 blocks
-        for i in range(10):
-            # Send the current block in the tower
-            pyrosim.Send_Cube(
-                name=f"Box_{row}_{col}_{i + 1}",
-                pos=[x, y, z],
-                size=[length, width, height],
-            )
+	# Create Backleg
+	pyrosim.Send_Cube(name="BackLeg", pos=[-0.5, 0.0, -0.5], size=[1,1,1])
 
-            # Modify position for the next block (directly on top of the current block)
-            z += height  # Move the block up by its height
+    # Create joints to connect Torso and FrontLeg
+	pyrosim.Send_Joint( name = "Torso_FrontLeg" , parent= "Torso" , child = "FrontLeg", type = "revolute", position = [2.0,0,1.0])
 
-            # Reduce size for the next block (90% of the current size)
-            length *= 0.9
-            width *= 0.9
-            height *= 0.9
+    # Create frontleg
+	pyrosim.Send_Cube(name="FrontLeg", pos=[0.5, 0.0, -0.5], size=[1,1,1])
 
-pyrosim.End()
+	pyrosim.End()
+
+def Generate_Brain():
+	pyrosim.Start_NeuralNetwork("brain.nndf")
+
+	# Sensor nuerons receive values from sensors
+	pyrosim.Send_Sensor_Neuron(name = 0 , linkName = "Torso")
+	pyrosim.Send_Sensor_Neuron(name = 1 , linkName = "BackLeg")
+	pyrosim.Send_Sensor_Neuron(name = 2 , linkName = "FrontLeg")
+
+	pyrosim.Send_Motor_Neuron( name = 3 , jointName = "Torso_BackLeg")
+	pyrosim.Send_Motor_Neuron( name = 4 , jointName = "Torso_FrontLeg")
+
+	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = 1.5 )
+	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 3 , weight = 1.5 )
+
+	# Testing different combinations and weights
+	pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = 0.5 )
+	pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = 1.5 )
 
 
+	pyrosim.End()
+
+Create_World()
+Generate_Body()
+Generate_Brain()
 
