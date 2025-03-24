@@ -1,7 +1,17 @@
-from simulation import SIMULATION
+if __name__ == "__main__":
+    import sys
+    from simulation import SIMULATION
 
-simulation = SIMULATION()
-simulation.Run()
+    # If no argument provided, default to "GUI"
+    if len(sys.argv) > 1:
+        directOrGUI = sys.argv[1]
+    else:
+        directOrGUI = "GUI"
+        
+    sim = SIMULATION(directOrGUI)
+    sim.Run()
+    sim.Get_Fitness()
+
 
 '''
 import pybullet as p

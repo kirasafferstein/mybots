@@ -29,11 +29,12 @@ class ROBOT:
     def Prepare_To_Act(self):
         self.motors = {}  # Initialize motors dictionary
 
-        print("Joints found in URDF:", [joint.decode("utf-8") for joint in pyrosim.jointNamesToIndices.keys()])  # Debugging line
+        #print("Joints found in URDF:", [joint.decode("utf-8") for joint in pyrosim.jointNamesToIndices.keys()])  # Debugging line
 
-        for jointName in pyrosim.jointNamesToIndices:
-            decodedJointName = jointName.decode("utf-8")  # Convert byte string to regular string
-            self.motors[decodedJointName] = MOTOR(decodedJointName)
+        for jointName_bytes in pyrosim.jointNamesToIndices:
+            jointName = jointName_bytes.decode("utf-8")
+            self.motors[jointName] = MOTOR(jointName)
+
 
 
     def Sense(self, t):
@@ -43,7 +44,7 @@ class ROBOT:
     def Think(self):
         # Flow values from the sensors to the sensor neurons 
         self.nn.Update()
-        self.nn.Print()
+        #self.nn.Print()
     
     def Act(self, t):
         #for neuronName in self.nn.Get_Neuron_Names():
@@ -61,17 +62,27 @@ class ROBOT:
         #for motor in self.motors.values():
             #motor.Set_Value(t, self.robotId)
 
-        print("Available motor joints:", self.motors.keys())  # Debugging line
+        #print("Available motor joints:", self.motors.keys())  # Debugging line
 
         for neuronName in self.nn.Get_Neuron_Names():
             if self.nn.Is_Motor_Neuron(neuronName):
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
                 desiredAngle = self.nn.Get_Value_Of(neuronName)
-                self.motors[jointName].Set_Value(self.robotId, desiredAngle)
-                print(f"Motor Neuron {neuronName} is controlling joint {jointName} with desired angle {desiredAngle}.")
+                self.motors[jointName].Set_Value(desiredAngle, self.robotId)
+                #print(f"Motor Neuron {neuronName} is controlling joint {jointName} with desired angle {desiredAngle}.")
     
     def Save_Values(self):
         for linkName, sensor in self.sensors.items():
             numpy.save(f"data/{linkName}_sensorValues.npy", sensor.values)
         for jointName, motor in self.motors.items():
             numpy.save(f"data/{jointName}_motorValues.npy", motor.motorValues)
+
+    def Get_Fitness(self):
+        stateOfLinkZero = p.getLinkState(self.robotId,0)
+        positionOfLinkZero = stateOfLinkZero[0]
+        xCoordinateOfLinkZero = positionOfLinkZero[0]
+
+        # Write the x value of the position to fitness.txt
+        with open("fitness.txt", "w") as f:
+            f.write(str(xCoordinateOfLinkZero))
+            

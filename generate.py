@@ -1,4 +1,5 @@
 import pyrosim.pyrosim as pyrosim
+import random
 
 def Create_World():	
 
@@ -41,12 +42,25 @@ def Generate_Brain():
 	pyrosim.Send_Motor_Neuron( name = 3 , jointName = "Torso_BackLeg")
 	pyrosim.Send_Motor_Neuron( name = 4 , jointName = "Torso_FrontLeg")
 
-	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = 1.5 )
-	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 3 , weight = 1.5 )
+	# Replaced next two lines for assignment 9 - replaced with double for loop
+	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = -2.0 )
+	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = 1.0 )
+	
+	sensor_neuron_ids = [0, 1, 2]
+	motor_neuron_ids = [3, 4]
 
-	# Testing different combinations and weights
-	pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = 0.5 )
-	pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = 1.5 )
+	for sensor in sensor_neuron_ids:
+		for motor in motor_neuron_ids:
+			weight = random.uniform(-1, 1)
+			pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=motor, weight=weight)
+
+	# Testing different combinations and weights (test1)
+	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = 2.0 )
+	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = -1.0 )
+
+	# Testing different combinations and weights (test2)
+	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = -1.0 )
+	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = -1.0 )
 
 
 	pyrosim.End()

@@ -6,7 +6,8 @@ GRAVITY = -9.8
 
 # Simulation Constants
 SIMULATION_STEPS = 1000
-TIME_STEP = 1 / 60
+#TIME_STEP = 1 / 60
+TIME_STEP = 0.005
 
 # Define motion parameters
 backLegAmplitude = numpy.pi / 3 # Maximum joint angle
@@ -19,3 +20,5 @@ frontLegPhaseOffset = numpy.pi / 2
 
 # Motor Control
 MOTOR_MAX_FORCE = 95
+
+numberOfGenerations = 10

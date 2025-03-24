@@ -6,7 +6,7 @@ import constants as c
 class MOTOR:
     def __init__(self, jointName):
         self.jointName = jointName.decode("utf-8") if isinstance(jointName, bytes) else jointName
-        self.jointIndex = pyrosim.jointNamesToIndices[self.jointName]  
+        self.jointIndex = int(pyrosim.jointNamesToIndices[self.jointName.encode("utf-8")])
         self.Prepare_To_Act()
     
     def Prepare_To_Act(self):
@@ -27,7 +27,7 @@ class MOTOR:
     
     def Set_Value(self, desiredAngle, robotId):
         #targetLocation = self.motorValues[desiredAngle]
-        print(f"Setting motor value for {self.jointName} (index {self.jointIndex}) to {desiredAngle}")
+        #print(f"Setting motor value for {self.jointName} (index {self.jointIndex}) to {desiredAngle}")
 
         
         p.setJointMotorControl2(

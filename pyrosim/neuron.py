@@ -52,7 +52,7 @@ class NEURON:
         sensor_value = pyrosim.Get_Touch_Sensor_Value_For_Link(self.Get_Link_Name())
         
         # Print the value to check if it's updating correctly
-        print(f"Sensor value for {self.Get_Link_Name()}: {sensor_value}")
+        #print(f"Sensor value for {self.Get_Link_Name()}: {sensor_value}")
         
         # Update the neuron with the fetched value
         self.Set_Value(sensor_value)
@@ -72,7 +72,8 @@ class NEURON:
 
         # self.Print_Type()
 
-        self.Print_Value()
+        #self.Print_Value()
+        pass
 
         # print("")
 
@@ -101,7 +102,7 @@ class NEURON:
                 value = neurons[key[0]].Get_Value()
                 self.Allow_Presynaptic_Neuron_To_Influence_Me(weight, value)
 
-                print(f"Pre: {key[0]}, Post: {key[1]}, Weight: {weight}, Pre Value: {value}")
+                #print(f"Pre: {key[0]}, Post: {key[1]}, Weight: {weight}, Pre Value: {value}")
 
         #self.Threshold()
 
@@ -136,15 +137,18 @@ class NEURON:
 
     def Print_Name(self):
 
-       print(self.name)
+       #print(self.name)
+       pass
 
     def Print_Type(self):
 
-       print(self.type)
+       #print(self.type)
+       pass
 
     def Print_Value(self):
 
-       print(self.value , " " , end="" )
+       #print(self.value , " " , end="" )
+       pass
 
     def Search_For_Joint_Name(self,line):
 
