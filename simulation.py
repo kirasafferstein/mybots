@@ -9,6 +9,8 @@ from robot import ROBOT
 
 class SIMULATION:
     def __init__(self, directOrGUI):
+        self.directOrGUI = directOrGUI  # Save for later
+
         if directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         else:
@@ -19,18 +21,21 @@ class SIMULATION:
 
         self.world = WORLD()
         self.robot = ROBOT()
+
     
     def Run(self):
         for t in range(c.SIMULATION_STEPS):
-            #print(f"Iteration number: {t}")
-            p.stepSimulation()  # Keep the simulation running
-            self.robot.Sense(t)  # Step 8: Call Sense() method after simulation step
+            p.stepSimulation()
+            self.robot.Sense(t)
             self.robot.Think()
-            self.robot.Act(t)  # Step 9: Call Act() method to perform actions
-            time.sleep(c.TIME_STEP)  # Maintain real-time speed
-        
-        # Step 10: Save sensor and motor values
+            self.robot.Act(t)
+
+            # Only sleep if using GUI
+            if self.directOrGUI == "GUI":
+                time.sleep(c.TIME_STEP)
+
         self.robot.Save_Values()
+
 
     def Get_Fitness(self):
         # Get info about the robots final state
