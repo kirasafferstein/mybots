@@ -37,6 +37,23 @@ class SOLUTION:
         randomColumn = random.randint(0, 1)
         self.weights[randomRow, randomColumn] = random.random() * 2 - 1
 
+    def Get_Fitness(self):
+        fitnessFileName = f"fitness{self.myID}.txt"
+
+        # Wait until the fitness file exists
+        while not os.path.exists(fitnessFileName):
+            time.sleep(0.01)
+
+        # Once the file is found, read it
+        with open(fitnessFileName, "r") as fitnessFile:
+            self.fitness = float(fitnessFile.read())
+        
+        print(f"Fitness for solution {self.myID}: {self.fitness}")
+
+        # Clean up the fitness file
+        os.system(f"del {fitnessFileName}")
+        return self.fitness
+
     def Create_World(self):
         pyrosim.Start_SDF("world.sdf")
         pyrosim.Send_Cube(name="Box", pos=[0, -2, 0.5], size=[1, 1, 1])
