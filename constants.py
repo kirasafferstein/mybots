@@ -22,3 +22,5 @@ frontLegPhaseOffset = numpy.pi / 2
 MOTOR_MAX_FORCE = 95
 
 numberOfGenerations = 10
+
+populationSize = 10

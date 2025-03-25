@@ -8,20 +8,14 @@ from world import WORLD
 from robot import ROBOT
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
-        self.directOrGUI = directOrGUI  # Save for later
-
-        if directOrGUI == "DIRECT":
-            self.physicsClient = p.connect(p.DIRECT)
-        else:
-            self.physicsClient = p.connect(p.GUI)
-
+    def __init__(self, directOrGUI, solutionID):
+        self.directOrGUI = directOrGUI
+        self.physicsClient = p.connect(p.DIRECT if directOrGUI == "DIRECT" else p.GUI)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0, 0, c.GRAVITY)
 
         self.world = WORLD()
-        self.robot = ROBOT()
-
+        self.robot = ROBOT(solutionID)
     
     def Run(self):
         for t in range(c.SIMULATION_STEPS):

@@ -1,16 +1,24 @@
-if __name__ == "__main__":
-    import sys
-    from simulation import SIMULATION
+import sys
+from simulation import SIMULATION
 
-    # If no argument provided, default to "GUI"
-    if len(sys.argv) > 1:
-        directOrGUI = sys.argv[1]
-    else:
-        directOrGUI = "GUI"
-        
-    sim = SIMULATION(directOrGUI)
-    sim.Run()
-    sim.Get_Fitness()
+#print(f"Starting simulate.py with ID {sys.argv[2]}")
+
+# Get mode (DIRECT or GUI)
+if len(sys.argv) > 1:
+    directOrGUI = sys.argv[1]
+else:
+    directOrGUI = "GUI"
+
+# Get solution ID
+if len(sys.argv) > 2:
+    solutionID = sys.argv[2]
+else:
+    solutionID = "0"
+
+# Pass both to simulation
+sim = SIMULATION(directOrGUI, solutionID)
+sim.Run()
+sim.Get_Fitness()
 
 
 '''
