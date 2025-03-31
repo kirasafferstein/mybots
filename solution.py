@@ -16,8 +16,9 @@ class SOLUTION:
         self.Create_Body()
         self.Create_Brain()
 
-        print(f"Launching simulate.py for solution {self.myID}")
-        os.system(f"start /B py simulate.py {directOrGUI} {self.myID}")
+        #print(f"Launching simulate.py for solution {self.myID}")
+        os.system(f"start /B py simulate.py {directOrGUI} {self.myID} {self.bodyFileName} {self.worldFileName}")
+
 
     def Wait_For_Simulation_To_End(self):
         fitnessFileName = f"fitness{self.myID}.txt"
@@ -62,12 +63,29 @@ class SOLUTION:
         return self.fitness
 
     def Create_World(self):
-        pyrosim.Start_SDF("world.sdf")
-        pyrosim.Send_Cube(name="Box", pos=[0, -2, 0.5], size=[1, 1, 1])
+        self.worldFileName = f"world{self.myID}.sdf"
+        pyrosim.Start_SDF(self.worldFileName)
+
+        # Generate a grid of blocks
+        grid_rows = 3
+        grid_cols = 5
+        spacing = 5
+
+        for row in range(grid_rows):
+            for col in range(grid_cols):
+                x_offset = -row * spacing - 4  # Still moving toward -X
+                y_offset = (col - grid_cols // 2) * spacing
+
+                if row % 2 == 1:
+                    y_offset += spacing / 2  # Offset odd rows to break symmetry
+                z = 0.5  # So it sits on the ground
+                pyrosim.Send_Cube(name=f"Obstacle_{row}_{col}", pos=[x_offset, y_offset, z], size=[1, 1, 1])
+
         pyrosim.End()
 
     def Create_Body(self):        
-        pyrosim.Start_URDF("body.urdf")
+        self.bodyFileName = f"body{self.myID}.urdf"
+        pyrosim.Start_URDF(self.bodyFileName)
 
         # Torso
         pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1.0], size=[1, 1, 1])
@@ -98,15 +116,15 @@ class SOLUTION:
         pyrosim.End()
 
     def Create_Brain(self):
-        print(f"Current working directory: {os.getcwd()}")
+        #print(f"Current working directory: {os.getcwd()}")
 
 
         file_name = f"brain{self.myID}.nndf"
-        print(f"Creating {file_name} with weights:\n{self.weights}")
+        #print(f"Creating {file_name} with weights:\n{self.weights}")
         
         # Absolute path or check the current working directory
         file_path = os.path.join(os.getcwd(), file_name)
-        print(f"Saving brain file at: {file_path}")
+        #print(f"Saving brain file at: {file_path}")
 
 
         pyrosim.Start_NeuralNetwork(file_path)

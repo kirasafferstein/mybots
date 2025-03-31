@@ -1,6 +1,6 @@
 <sdf>
     <model name="Obstacle_0_0">
-        <pose>4 -6 0.5 0 0 0 </pose>
+        <pose>-4 -10 0.5 0 0 0 </pose>
         <link name="Obstacle_0_0">
             <inertial>
                 <mass>1.0</mass>
@@ -30,7 +30,7 @@
         </link>
     </model>
     <model name="Obstacle_0_1">
-        <pose>4 -3 0.5 0 0 0 </pose>
+        <pose>-4 -5 0.5 0 0 0 </pose>
         <link name="Obstacle_0_1">
             <inertial>
                 <mass>1.0</mass>
@@ -60,7 +60,7 @@
         </link>
     </model>
     <model name="Obstacle_0_2">
-        <pose>4 0 0.5 0 0 0 </pose>
+        <pose>-4 0 0.5 0 0 0 </pose>
         <link name="Obstacle_0_2">
             <inertial>
                 <mass>1.0</mass>
@@ -90,7 +90,7 @@
         </link>
     </model>
     <model name="Obstacle_0_3">
-        <pose>4 3 0.5 0 0 0 </pose>
+        <pose>-4 5 0.5 0 0 0 </pose>
         <link name="Obstacle_0_3">
             <inertial>
                 <mass>1.0</mass>
@@ -120,7 +120,7 @@
         </link>
     </model>
     <model name="Obstacle_0_4">
-        <pose>4 6 0.5 0 0 0 </pose>
+        <pose>-4 10 0.5 0 0 0 </pose>
         <link name="Obstacle_0_4">
             <inertial>
                 <mass>1.0</mass>
@@ -150,7 +150,7 @@
         </link>
     </model>
     <model name="Obstacle_1_0">
-        <pose>7 -6 0.5 0 0 0 </pose>
+        <pose>-9 -7.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_0">
             <inertial>
                 <mass>1.0</mass>
@@ -180,7 +180,7 @@
         </link>
     </model>
     <model name="Obstacle_1_1">
-        <pose>7 -3 0.5 0 0 0 </pose>
+        <pose>-9 -2.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_1">
             <inertial>
                 <mass>1.0</mass>
@@ -210,7 +210,7 @@
         </link>
     </model>
     <model name="Obstacle_1_2">
-        <pose>7 0 0.5 0 0 0 </pose>
+        <pose>-9 2.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_2">
             <inertial>
                 <mass>1.0</mass>
@@ -240,7 +240,7 @@
         </link>
     </model>
     <model name="Obstacle_1_3">
-        <pose>7 3 0.5 0 0 0 </pose>
+        <pose>-9 7.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_3">
             <inertial>
                 <mass>1.0</mass>
@@ -270,7 +270,7 @@
         </link>
     </model>
     <model name="Obstacle_1_4">
-        <pose>7 6 0.5 0 0 0 </pose>
+        <pose>-9 12.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_4">
             <inertial>
                 <mass>1.0</mass>
@@ -300,7 +300,7 @@
         </link>
     </model>
     <model name="Obstacle_2_0">
-        <pose>10 -6 0.5 0 0 0 </pose>
+        <pose>-14 -10 0.5 0 0 0 </pose>
         <link name="Obstacle_2_0">
             <inertial>
                 <mass>1.0</mass>
@@ -330,7 +330,7 @@
         </link>
     </model>
     <model name="Obstacle_2_1">
-        <pose>10 -3 0.5 0 0 0 </pose>
+        <pose>-14 -5 0.5 0 0 0 </pose>
         <link name="Obstacle_2_1">
             <inertial>
                 <mass>1.0</mass>
@@ -360,7 +360,7 @@
         </link>
     </model>
     <model name="Obstacle_2_2">
-        <pose>10 0 0.5 0 0 0 </pose>
+        <pose>-14 0 0.5 0 0 0 </pose>
         <link name="Obstacle_2_2">
             <inertial>
                 <mass>1.0</mass>
@@ -390,7 +390,7 @@
         </link>
     </model>
     <model name="Obstacle_2_3">
-        <pose>10 3 0.5 0 0 0 </pose>
+        <pose>-14 5 0.5 0 0 0 </pose>
         <link name="Obstacle_2_3">
             <inertial>
                 <mass>1.0</mass>
@@ -420,308 +420,8 @@
         </link>
     </model>
     <model name="Obstacle_2_4">
-        <pose>10 6 0.5 0 0 0 </pose>
+        <pose>-14 10 0.5 0 0 0 </pose>
         <link name="Obstacle_2_4">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_3_0">
-        <pose>13 -6 0.5 0 0 0 </pose>
-        <link name="Obstacle_3_0">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_3_1">
-        <pose>13 -3 0.5 0 0 0 </pose>
-        <link name="Obstacle_3_1">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_3_2">
-        <pose>13 0 0.5 0 0 0 </pose>
-        <link name="Obstacle_3_2">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_3_3">
-        <pose>13 3 0.5 0 0 0 </pose>
-        <link name="Obstacle_3_3">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_3_4">
-        <pose>13 6 0.5 0 0 0 </pose>
-        <link name="Obstacle_3_4">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_4_0">
-        <pose>16 -6 0.5 0 0 0 </pose>
-        <link name="Obstacle_4_0">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_4_1">
-        <pose>16 -3 0.5 0 0 0 </pose>
-        <link name="Obstacle_4_1">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_4_2">
-        <pose>16 0 0.5 0 0 0 </pose>
-        <link name="Obstacle_4_2">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_4_3">
-        <pose>16 3 0.5 0 0 0 </pose>
-        <link name="Obstacle_4_3">
-            <inertial>
-                <mass>1.0</mass>
-                <inertia>
-                    <ixx>0.083</ixx>
-                    <ixy>0.0</ixy>
-                    <ixz>0.0</ixz>
-                    <iyy>0.083</iyy>
-                    <iyz>0.0</iyz>
-                    <izz>0.083</izz>
-                </inertia>
-            </inertial>
-            <collision>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </collision>
-            <visual>
-                <geometry>
-                   <box>
-                      <size>1 1 1</size>
-                   </box>
-                </geometry>
-            </visual>
-        </link>
-    </model>
-    <model name="Obstacle_4_4">
-        <pose>16 6 0.5 0 0 0 </pose>
-        <link name="Obstacle_4_4">
             <inertial>
                 <mass>1.0</mass>
                 <inertia>

@@ -14,11 +14,20 @@ if len(sys.argv) > 2:
     solutionID = sys.argv[2]
 else:
     solutionID = "0"
+    
+# Get body and world filenames
+bodyFile = sys.argv[3] if len(sys.argv) > 3 else "body.urdf"
+worldFile = sys.argv[4] if len(sys.argv) > 4 else "world.sdf"
 
-# Pass both to simulation
-sim = SIMULATION(directOrGUI, solutionID)
+# Pass all to the simulation
+sim = SIMULATION(directOrGUI, solutionID, bodyFile, worldFile)
 sim.Run()
 sim.Get_Fitness()
+
+# Pass both to simulation
+#sim = SIMULATION(directOrGUI, solutionID)
+#sim.Run()
+#sim.Get_Fitness()
 
 
 '''

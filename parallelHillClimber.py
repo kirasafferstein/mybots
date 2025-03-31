@@ -44,7 +44,7 @@ class PARALLEL_HILL_CLIMBER:
     def Evaluate(self, solutions):
         # Evaluate parents or children (depending on the argument passed)
         for key in solutions:
-            print(f"Evaluating solution {key}...")
+           # print(f"Evaluating solution {key}...")
             solutions[key].Start_Simulation("DIRECT")
         
         for key in solutions:
@@ -75,7 +75,7 @@ class PARALLEL_HILL_CLIMBER:
         # Iterate through each child in self.children and mutate them
         for key, child in self.children.items():
             child.Mutate()
-            print(f"Child {key} mutated.")
+           # print(f"Child {key} mutated.")
 
     def Select(self):
         for key in self.parents:

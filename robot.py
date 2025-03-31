@@ -8,9 +8,9 @@ import os
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 
 class ROBOT:
-    def __init__(self, solutionID):
+    def __init__(self, solutionID, bodyFile):
         self.solutionID = solutionID
-        self.robotId = p.loadURDF("body.urdf")
+        self.robotId = p.loadURDF(bodyFile)
         pyrosim.Prepare_To_Simulate(self.robotId)
 
         self.nn = NEURAL_NETWORK(f"brain{solutionID}.nndf")
@@ -19,7 +19,9 @@ class ROBOT:
         self.Prepare_To_Act()
 
         # Delete the brain file after loading
+        # Clean up input files (optional but recommended)
         os.remove(f"brain{solutionID}.nndf")
+        os.remove(bodyFile)  # ← This is the cleanup line
 
     def Prepare_To_Sense(self):
         self.sensors = {}
