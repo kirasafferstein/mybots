@@ -3,11 +3,12 @@ import os
 import pyrosim.pyrosim as pyrosim
 import random
 import time
+import constants as c
 
 class SOLUTION:
     def __init__(self, myID):
         self.myID = myID
-        self.weights = numpy.random.rand(3, 2)
+        self.weights = numpy.random.rand(c.numSensorNeurons, c.numMotorNeurons)
         self.weights = self.weights * 2 - 1  # Scale to [-1, +1]
 
     def Start_Simulation(self, directOrGUI):
@@ -20,21 +21,27 @@ class SOLUTION:
 
     def Wait_For_Simulation_To_End(self):
         fitnessFileName = f"fitness{self.myID}.txt"
-    
+ 
         while not os.path.exists(fitnessFileName):
             time.sleep(0.01)
 
-        with open(fitnessFileName, "r") as fitnessFile:
-            self.fitness = float(fitnessFile.read())
-
-        os.remove(fitnessFileName)
+        # Retry reading if the file is still in use (locked by another process)
+        while True:
+            try:
+                with open(fitnessFileName, "r") as fitnessFile:
+                    self.fitness = float(fitnessFile.read())
+                os.remove(fitnessFileName)
+                break  # Successfully read and deleted the file
+            except PermissionError:
+                print(f"Waiting for {fitnessFileName} to be unlocked...")
+                time.sleep(0.1)  # Wait before trying again
 
     def Set_ID(self, newID):
         self.myID = newID
 
     def Mutate(self):
-        randomRow = random.randint(0, 2)
-        randomColumn = random.randint(0, 1)
+        randomRow = random.randint(0, c.numSensorNeurons - 1)  # Choose a random sensor neuron
+        randomColumn = random.randint(0, c.numMotorNeurons - 1)  # Choose a random motor neuron
         self.weights[randomRow, randomColumn] = random.random() * 2 - 1
 
     def Get_Fitness(self):
@@ -59,29 +66,85 @@ class SOLUTION:
         pyrosim.Send_Cube(name="Box", pos=[0, -2, 0.5], size=[1, 1, 1])
         pyrosim.End()
 
-    def Create_Body(self):
+    def Create_Body(self):        
         pyrosim.Start_URDF("body.urdf")
-        pyrosim.Send_Cube(name="Torso", pos=[1.5, 0.0, 1.5], size=[1,1,1])
-        pyrosim.Send_Joint(name="Torso_BackLeg", parent="Torso", child="BackLeg", type="revolute", position=[1.0,0,1.0])
-        pyrosim.Send_Cube(name="BackLeg", pos=[-0.5, 0.0, -0.5], size=[1,1,1])
-        pyrosim.Send_Joint(name="Torso_FrontLeg", parent="Torso", child="FrontLeg", type="revolute", position=[2.0,0,1.0])
-        pyrosim.Send_Cube(name="FrontLeg", pos=[0.5, 0.0, -0.5], size=[1,1,1])
+
+        # Torso
+        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1.0], size=[1, 1, 1])
+
+        # --- BACK LEG ---
+        pyrosim.Send_Joint("Torso_BackLeg", "Torso", "BackLeg", "revolute", [0, -0.5, 1.0], jointAxis="1 0 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("BackLeg", pos=[0, -0.5, 0], size=[0.2, 1.0, 0.2])
+        pyrosim.Send_Joint("BackLeg_BackLowerLeg", "BackLeg", "BackLowerLeg", "revolute", [0, -1.0, 0], jointAxis="1 0 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("BackLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1.0])
+
+        # --- FRONT LEG ---
+        pyrosim.Send_Joint("Torso_FrontLeg", "Torso", "FrontLeg", "revolute", [0, 0.5, 1.0], jointAxis="1 0 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("FrontLeg", pos=[0, 0.5, 0], size=[0.2, 1.0, 0.2])
+        pyrosim.Send_Joint("FrontLeg_FrontLowerLeg", "FrontLeg", "FrontLowerLeg", "revolute", [0, 1.0, 0], jointAxis="1 0 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("FrontLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1.0])
+
+        # --- LEFT LEG ---
+        pyrosim.Send_Joint("Torso_LeftLeg", "Torso", "LeftLeg", "revolute", [-0.5, 0, 1.0], jointAxis="0 1 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("LeftLeg", pos=[-0.5, 0, 0], size=[1.0, 0.2, 0.2])
+        pyrosim.Send_Joint("LeftLeg_LeftLowerLeg", "LeftLeg", "LeftLowerLeg", "revolute", [-1.0, 0, 0], jointAxis="0 1 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("LeftLowerLeg", pos=[0, 0, -.5], size=[0.2, 0.2, 1.0])
+
+        # --- RIGHT LEG ---
+        pyrosim.Send_Joint("Torso_RightLeg", "Torso", "RightLeg", "revolute", [0.5, 0, 1.0], jointAxis="0 1 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("RightLeg", pos=[0.5, 0, 0], size=[1.0, 0.2, 0.2])
+        pyrosim.Send_Joint("RightLeg_RightLowerLeg", "RightLeg", "RightLowerLeg", "revolute", [1.0, 0, 0], jointAxis="0 1 0", lowerLimit="-0.6", upperLimit="0.6")
+        pyrosim.Send_Cube("RightLowerLeg", pos=[0, 0, -.5], size=[0.2, 0.2, 1.0])
         pyrosim.End()
 
     def Create_Brain(self):
-        print(f"Creating brain{self.myID}.nndf with weights:\n{self.weights}")
-        pyrosim.Start_NeuralNetwork(f"brain{self.myID}.nndf")
+        print(f"Current working directory: {os.getcwd()}")
 
+
+        file_name = f"brain{self.myID}.nndf"
+        print(f"Creating {file_name} with weights:\n{self.weights}")
+        
+        # Absolute path or check the current working directory
+        file_path = os.path.join(os.getcwd(), file_name)
+        print(f"Saving brain file at: {file_path}")
+
+
+        pyrosim.Start_NeuralNetwork(file_path)
+
+        # Sensor neurons for all body parts
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
         pyrosim.Send_Sensor_Neuron(name=1, linkName="BackLeg")
         pyrosim.Send_Sensor_Neuron(name=2, linkName="FrontLeg")
+        pyrosim.Send_Sensor_Neuron(name=3, linkName="LeftLeg")
+        pyrosim.Send_Sensor_Neuron(name=4, linkName="RightLeg")
+        pyrosim.Send_Sensor_Neuron(name=5, linkName="FrontLowerLeg")
+        pyrosim.Send_Sensor_Neuron(name=6, linkName="BackLowerLeg")
+        pyrosim.Send_Sensor_Neuron(name=7, linkName="LeftLowerLeg")
+        pyrosim.Send_Sensor_Neuron(name=8, linkName="RightLowerLeg")
 
-        pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
-        pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
+        # Motor neurons for all joints
+        pyrosim.Send_Motor_Neuron(name=9, jointName="Torso_BackLeg")
+        pyrosim.Send_Motor_Neuron(name=10, jointName="Torso_FrontLeg")
+        pyrosim.Send_Motor_Neuron(name=11, jointName="Torso_LeftLeg")
+        pyrosim.Send_Motor_Neuron(name=12, jointName="Torso_RightLeg")
+        pyrosim.Send_Motor_Neuron(name=13, jointName="FrontLeg_FrontLowerLeg")
+        pyrosim.Send_Motor_Neuron(name=14, jointName="BackLeg_BackLowerLeg")
+        pyrosim.Send_Motor_Neuron(name=15, jointName="LeftLeg_LeftLowerLeg")
+        pyrosim.Send_Motor_Neuron(name=16, jointName="RightLeg_RightLowerLeg")
 
-        for currentRow in range(3):
-            for currentColumn in range(2):
+        # Create synapses based on the weights of the neural network
+        for currentRow in range(c.numSensorNeurons):  # sensor neurons
+            for currentColumn in range(c.numMotorNeurons):  # motor neurons
                 weight = self.weights[currentRow][currentColumn]
-                pyrosim.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentColumn+3, weight=weight)
+                pyrosim.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentColumn + c.numSensorNeurons, weight=weight)
+
 
         pyrosim.End()
+
+        # Check if the brain file has been created
+        if os.path.exists(f"brain{self.myID}.nndf"):
+            print(f"brain{self.myID}.nndf file created successfully!")
+        else:
+            print(f"Error: brain{self.myID}.nndf file not created!")
+            exit()
+        

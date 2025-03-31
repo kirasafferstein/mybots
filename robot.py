@@ -53,8 +53,10 @@ class ROBOT:
             numpy.save(f"data/{jointName}_motorValues.npy", motor.motorValues)
 
     def Get_Fitness(self):
-        stateOfLinkZero = p.getLinkState(self.robotId, 0)
-        xCoordinateOfLinkZero = stateOfLinkZero[0][0]
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
+        basePosition = basePositionAndOrientation[0]
+        xCoordinateOfLinkZero = basePosition[0]
+
 
         # Write to a temp file first
         tmpFile = f"tmp{self.solutionID}.txt"

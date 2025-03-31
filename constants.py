@@ -24,3 +24,7 @@ MOTOR_MAX_FORCE = 95
 numberOfGenerations = 10
 
 populationSize = 10
+
+numSensorNeurons = 9  # Number of sensor neurons
+numMotorNeurons = 8   # Number of motor neurons
+
