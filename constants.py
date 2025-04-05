@@ -5,7 +5,7 @@ import numpy
 GRAVITY = -9.8
 
 # Simulation Constants
-SIMULATION_STEPS = 1000
+SIMULATION_STEPS = 3000
 #TIME_STEP = 1 / 60
 TIME_STEP = 0.005
 
