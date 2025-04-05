@@ -79,7 +79,7 @@ class SOLUTION:
                 if row % 2 == 1:
                     y_offset += spacing / 2  # Offset odd rows to break symmetry
                 z = 0.5  # So it sits on the ground
-                pyrosim.Send_Cube(name=f"Obstacle_{row}_{col}", pos=[x_offset, y_offset, z], size=[1, 1, 1])
+                pyrosim.Send_Cube(name=f"Obstacle_{row}_{col}", pos=[x_offset, y_offset, z], size=[1, 1, 1], mass=100.0)
 
         pyrosim.End()
 

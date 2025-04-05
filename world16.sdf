@@ -3,7 +3,7 @@
         <pose>-4 -10 0.5 0 0 0 </pose>
         <link name="Obstacle_0_0">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -33,7 +33,7 @@
         <pose>-4 -5 0.5 0 0 0 </pose>
         <link name="Obstacle_0_1">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -63,7 +63,7 @@
         <pose>-4 0 0.5 0 0 0 </pose>
         <link name="Obstacle_0_2">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -93,7 +93,7 @@
         <pose>-4 5 0.5 0 0 0 </pose>
         <link name="Obstacle_0_3">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -123,7 +123,7 @@
         <pose>-4 10 0.5 0 0 0 </pose>
         <link name="Obstacle_0_4">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -153,7 +153,7 @@
         <pose>-9 -7.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_0">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -183,7 +183,7 @@
         <pose>-9 -2.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_1">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -213,7 +213,7 @@
         <pose>-9 2.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_2">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -243,7 +243,7 @@
         <pose>-9 7.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_3">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -273,7 +273,7 @@
         <pose>-9 12.5 0.5 0 0 0 </pose>
         <link name="Obstacle_1_4">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -303,7 +303,7 @@
         <pose>-14 -10 0.5 0 0 0 </pose>
         <link name="Obstacle_2_0">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -333,7 +333,7 @@
         <pose>-14 -5 0.5 0 0 0 </pose>
         <link name="Obstacle_2_1">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -363,7 +363,7 @@
         <pose>-14 0 0.5 0 0 0 </pose>
         <link name="Obstacle_2_2">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -393,7 +393,7 @@
         <pose>-14 5 0.5 0 0 0 </pose>
         <link name="Obstacle_2_3">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
@@ -423,7 +423,7 @@
         <pose>-14 10 0.5 0 0 0 </pose>
         <link name="Obstacle_2_4">
             <inertial>
-                <mass>1.0</mass>
+                <mass>100.0</mass>
                 <inertia>
                     <ixx>0.083</ixx>
                     <ixy>0.0</ixy>
