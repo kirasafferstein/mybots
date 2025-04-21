@@ -6,6 +6,7 @@ import constants as c
 import numpy
 import os
 from pyrosim.neuralNetwork import NEURAL_NETWORK
+import time
 
 class ROBOT:
     def __init__(self, solutionID, bodyFile):
@@ -55,16 +56,32 @@ class ROBOT:
             numpy.save(f"data/{jointName}_motorValues.npy", motor.motorValues)
 
     def Get_Fitness(self):
-        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
-        basePosition = basePositionAndOrientation[0]
-        xCoordinateOfLinkZero = basePosition[0]
+        basePosition = p.getBasePositionAndOrientation(self.robotId)[0]
+        x = basePosition[0]  # How far it made it through the grid
 
+        time_elapsed = time.time() - self.start_time
 
-        # Write to a temp file first
+        # Combined fitness: distance minus time penalty
+        alpha = 0.05
+        fitness = x - alpha * time_elapsed
+
+        # Save to fitness file
         tmpFile = f"tmp{self.solutionID}.txt"
         finalFile = f"fitness{self.solutionID}.txt"
         with open(tmpFile, "w") as f:
-            f.write(str(xCoordinateOfLinkZero))
-
-        # Rename to signal completion
+            f.write(str(fitness))
         os.rename(tmpFile, finalFile)
+
+        # Print useful info
+        print(f"Robot {self.solutionID} → Distance: {x:.3f}, Time: {time_elapsed:.2f}s, Fitness: {fitness:.3f}")
+
+        # Log all info for plotting
+        with open("fitness_log.csv", "a") as log:
+            log.write(f"{self.solutionID},{x},{time_elapsed},{fitness}\n")
+
+
+
+
+
+
+

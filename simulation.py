@@ -31,13 +31,14 @@ class SIMULATION:
         self.robot = ROBOT(solutionID, bodyFile)
     
     def Run(self):
+        self.robot.start_time = time.time()  # ⏱️ mark start
+
         for t in range(c.SIMULATION_STEPS):
             p.stepSimulation()
             self.robot.Sense(t)
             self.robot.Think()
             self.robot.Act(t)
 
-            # Only sleep if using GUI
             if self.directOrGUI == "GUI":
                 time.sleep(c.TIME_STEP)
 

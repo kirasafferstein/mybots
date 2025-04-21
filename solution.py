@@ -41,9 +41,13 @@ class SOLUTION:
         self.myID = newID
 
     def Mutate(self):
-        randomRow = random.randint(0, c.numSensorNeurons - 1)  # Choose a random sensor neuron
-        randomColumn = random.randint(0, c.numMotorNeurons - 1)  # Choose a random motor neuron
-        self.weights[randomRow, randomColumn] = random.random() * 2 - 1
+        for r in range(self.weights.shape[0]):
+            for c in range(self.weights.shape[1]):
+                if random.random() < 0.1:  # 10% chance to mutate each synapse
+                    self.weights[r, c] += random.gauss(0, 0.2)  # Add small noise
+
+                    # Optional: Clamp weights to [-1, 1]
+                    self.weights[r, c] = max(min(self.weights[r, c], 1), -1)
 
     def Get_Fitness(self):
         fitnessFileName = f"fitness{self.myID}.txt"

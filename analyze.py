@@ -1,33 +1,27 @@
-import numpy
-import matplotlib.pyplot 
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# Load data/backLegSensorValues.npy into the vector backLegSensorValues
-backLegSensorValues = numpy.load("data/backLegSensorValues.npy")
-frontLegSensorValues = numpy.load("data/frontLegSensorValues.npy")
-motorAngles = numpy.sin(numpy.linspace(0, 2 * numpy.pi, 1000)) * (numpy.pi /4)
-frontLegMotorCommands = numpy.load("data/frontLegMotorCommands.npy")
-backLegMotorCommands = numpy.load("data/backLegMotorCommands.npy")
+# Load the CSV log
+df = pd.read_csv("fitness_log.csv", header=None, names=["ID", "Distance", "Time", "Fitness"])
 
-# Draw the values in the vector 
+# Plot the performance (Distance vs Time)
+plt.figure(figsize=(10, 6))
+plt.scatter(df["Distance"], df["Time"], c="blue", label="Robot Performance")
 
-# Front and back leg sensor values:
-#matplotlib.pyplot.plot(backLegSensorValues, label = "Back Leg Sensors", linewidth = 2)
-#matplotlib.pyplot.plot(frontLegSensorValues, label = "Front Leg Sensors", linewidth = 1)
+# Highlight the best-performing robot (highest fitness)
+best = df.sort_values("Fitness", ascending=False).iloc[0]
+plt.scatter(best["Distance"], best["Time"], c="red", s=100, edgecolors='black', label="Best Robot")
 
-# Motor angles:
-#matplotlib.pyplot.plot(motorAngles, '--', label = "targetAngles", alpha = 0.5)
+# Styling and labels
+plt.title("Robot Efficiency in Navigating Obstacle Grid", fontsize=14)
+plt.xlabel("Distance Traveled Through Grid (x)", fontsize=12)
+plt.ylabel("Time to Exit (seconds)", fontsize=12)
+plt.grid(True, linestyle="--", alpha=0.5)
+plt.legend()
+plt.tight_layout()
 
-# Front and back motor commands
-#matplotlib.pyplot.plot(backLegSensorValues, label="Back Leg Sensors", linewidth=2)
-#matplotlib.pyplot.plot(frontLegSensorValues, label="Front Leg Sensors", linewidth=1)
-matplotlib.pyplot.plot(backLegMotorCommands, '--', label="Back Leg Motor Commands", alpha=0.7)
-matplotlib.pyplot.plot(frontLegMotorCommands, '--', label="Front Leg Motor Commands", linewidth=2)
-
-# Make sure plot has legend
-matplotlib.pyplot.legend()
+# Save the plot 
+# plt.savefig("robot_performance_plot.png", dpi=300)
 
 # Show the plot
-matplotlib.pyplot.show()
-
-
-
+plt.show()

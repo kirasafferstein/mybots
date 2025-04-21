@@ -10,8 +10,8 @@ def Create_World():
 	#pyrosim.Send_Cube(name="Box", pos=[0, -2, 0.5], size=[1, 1, 1])
 
 	# Create grid of blocks
-	grid_rows = 5
-	grid_cols = 5
+	grid_rows = 10
+	grid_cols = 10
 	spacing = 3 
 
 	for row in range(grid_rows):
