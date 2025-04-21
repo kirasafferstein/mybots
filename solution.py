@@ -8,6 +8,7 @@ import constants as c
 class SOLUTION:
     def __init__(self, myID):
         self.myID = myID
+        self.fitness = None
         self.weights = numpy.random.rand(c.numSensorNeurons, c.numMotorNeurons)
         self.weights = self.weights * 2 - 1  # Scale to [-1, +1]
 
@@ -36,17 +37,19 @@ class SOLUTION:
             except PermissionError:
                 print(f"Waiting for {fitnessFileName} to be unlocked...")
                 time.sleep(0.1)  # Wait before trying again
+        return self.fitness
 
     def Set_ID(self, newID):
         self.myID = newID
 
     def Mutate(self):
+        mutation_rate = 0.2  # 5% chance per synapse
+        mutation_strength = 0.3  # smaller jumps
+
         for r in range(self.weights.shape[0]):
             for c in range(self.weights.shape[1]):
-                if random.random() < 0.1:  # 10% chance to mutate each synapse
-                    self.weights[r, c] += random.gauss(0, 0.2)  # Add small noise
-
-                    # Optional: Clamp weights to [-1, 1]
+                if random.random() < mutation_rate:
+                    self.weights[r, c] += random.gauss(0, mutation_strength)
                     self.weights[r, c] = max(min(self.weights[r, c], 1), -1)
 
     def Get_Fitness(self):
@@ -73,7 +76,7 @@ class SOLUTION:
         # Generate a grid of blocks
         grid_rows = 3
         grid_cols = 5
-        spacing = 5
+        spacing = 7
 
         for row in range(grid_rows):
             for col in range(grid_cols):

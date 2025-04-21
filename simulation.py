@@ -31,16 +31,29 @@ class SIMULATION:
         self.robot = ROBOT(solutionID, bodyFile)
     
     def Run(self):
-        self.robot.start_time = time.time()  # ⏱️ mark start
+        self.robot.start_time = time.time()  # just for logging/debugging
 
         for t in range(c.SIMULATION_STEPS):
             p.stepSimulation()
             self.robot.Sense(t)
+            self.robot.Track_Collisions()
+
             self.robot.Think()
             self.robot.Act(t)
 
+            # ✅ Check if goal is reached and break early
+            x = p.getBasePositionAndOrientation(self.robot.robotId)[0][0]
+            if x >= c.GOAL_X:
+                print(f"[DEBUG] Robot {self.robot.solutionID} reached goal at x={x:.2f} on step {t}")
+                self.robot.current_time_step = t  # record step for fitness
+                break
+
             if self.directOrGUI == "GUI":
                 time.sleep(c.TIME_STEP)
+
+        # 🧱 If robot didn’t exit early, set to max time
+        if not hasattr(self.robot, "current_time_step"):
+            self.robot.current_time_step = c.SIMULATION_STEPS
 
         self.robot.Save_Values()
 

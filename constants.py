@@ -5,9 +5,11 @@ import numpy
 GRAVITY = -9.8
 
 # Simulation Constants
-SIMULATION_STEPS = 3000
-#TIME_STEP = 1 / 60
-TIME_STEP = 0.005
+SIMULATION_TIME = 45  # seconds
+TIME_STEP = 0.03
+SIMULATION_STEPS = int(SIMULATION_TIME / TIME_STEP)
+
+GOAL_X = 25
 
 # Define motion parameters
 backLegAmplitude = numpy.pi / 3 # Maximum joint angle
@@ -21,9 +23,9 @@ frontLegPhaseOffset = numpy.pi / 2
 # Motor Control
 MOTOR_MAX_FORCE = 95
 
-numberOfGenerations = 10
+numberOfGenerations = 15
 
-populationSize = 10
+populationSize = 15
 
 numSensorNeurons = 9  # Number of sensor neurons
 numMotorNeurons = 8   # Number of motor neurons

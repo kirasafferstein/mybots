@@ -12,7 +12,7 @@ def Create_World():
 	# Create grid of blocks
 	grid_rows = 10
 	grid_cols = 10
-	spacing = 3 
+	spacing = 7
 
 	for row in range(grid_rows):
 		for col in range(grid_cols):
@@ -44,38 +44,27 @@ def Generate_Body():
 	pyrosim.End()
 
 def Generate_Brain():
-	pyrosim.Start_NeuralNetwork("brain.nndf")
+    pyrosim.Start_NeuralNetwork("brain.nndf")
 
-	# Sensor nuerons receive values from sensors
-	pyrosim.Send_Sensor_Neuron(name = 0 , linkName = "Torso")
-	pyrosim.Send_Sensor_Neuron(name = 1 , linkName = "BackLeg")
-	pyrosim.Send_Sensor_Neuron(name = 2 , linkName = "FrontLeg")
+    # Define sensor neurons
+    pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
+    pyrosim.Send_Sensor_Neuron(name=1, linkName="BackLeg")
+    pyrosim.Send_Sensor_Neuron(name=2, linkName="FrontLeg")
 
-	pyrosim.Send_Motor_Neuron( name = 3 , jointName = "Torso_BackLeg")
-	pyrosim.Send_Motor_Neuron( name = 4 , jointName = "Torso_FrontLeg")
+    # Define motor neurons
+    pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
+    pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
 
-	# Replaced next two lines for assignment 9 - replaced with double for loop
-	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = -2.0 )
-	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = 1.0 )
-	
-	sensor_neuron_ids = [0, 1, 2]
-	motor_neuron_ids = [3, 4]
+    # Connect them with synapses
+    sensor_neuron_ids = [0, 1, 2]
+    motor_neuron_ids = [3, 4]
 
-	for sensor in sensor_neuron_ids:
-		for motor in motor_neuron_ids:
-			weight = random.uniform(-1, 1)
-			pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=motor, weight=weight)
+    for sensor in sensor_neuron_ids:
+        for motor in motor_neuron_ids:
+            weight = random.uniform(-1, 1)
+            pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=motor, weight=weight)
 
-	# Testing different combinations and weights (test1)
-	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = 2.0 )
-	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = -1.0 )
-
-	# Testing different combinations and weights (test2)
-	#pyrosim.Send_Synapse( sourceNeuronName = 1 , targetNeuronName = 3 , weight = -1.0 )
-	#pyrosim.Send_Synapse( sourceNeuronName = 2 , targetNeuronName = 4 , weight = -1.0 )
-
-
-	pyrosim.End()
+    pyrosim.End()  # This must come AFTER all the Send_* calls
 
 Create_World()
 Generate_Body()

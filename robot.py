@@ -19,10 +19,15 @@ class ROBOT:
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
 
+        self.collision_list = []
+        self.distance_readings = []
+        self.sensor_links_to_check = ['Torso', 'FrontLeg', 'BackLeg']  # Robot links
+
+
         # Delete the brain file after loading
-        # Clean up input files (optional but recommended)
+        # Clean up input files 
         os.remove(f"brain{solutionID}.nndf")
-        os.remove(bodyFile)  # ← This is the cleanup line
+        os.remove(bodyFile)  # Cleanup line
 
     def Prepare_To_Sense(self):
         self.sensors = {}
@@ -36,8 +41,42 @@ class ROBOT:
             self.motors[jointName] = MOTOR(jointName)
 
     def Sense(self, t):
-        for sensor in self.sensors.values():
+        for linkName, sensor in self.sensors.items():
             sensor.Get_Value(t)
+        self.Sense_Distance()
+
+    def Track_Collisions(self):
+        contact_points = p.getContactPoints(bodyA=self.robotId)
+        for contact in contact_points:
+            if contact[2] != self.robotId:  # only count if not self-self
+                self.collision_list.append(contact)
+
+
+    def Sense_Distance(self):
+        for linkName in self.sensor_links_to_check:
+            linkIndex = pyrosim.linkNamesToIndices.get(linkName, -1)
+            if linkIndex == -1:
+                continue  # Skip if missing
+
+            linkState = p.getLinkState(self.robotId, linkIndex)
+            linkPos = linkState[0]
+            linkOri = linkState[1]
+            matrix = p.getMatrixFromQuaternion(linkOri)
+            forward_vector = [matrix[0], matrix[3], matrix[6]]
+
+            # Raycast
+            start = linkPos
+            ray_length = 2
+            end = [start[i] + ray_length * forward_vector[i] for i in range(3)]
+            result = p.rayTest(start, end)[0]
+            hitFraction = result[2]
+            distance = hitFraction * ray_length
+
+            self.distance_readings.append((linkName, distance))
+
+            # Optionally overwrite sensor reading with distance
+            if linkName in self.sensors:
+                self.sensors[linkName].value = distance
 
     def Think(self):
         self.nn.Update()
@@ -56,30 +95,25 @@ class ROBOT:
             numpy.save(f"data/{jointName}_motorValues.npy", motor.motorValues)
 
     def Get_Fitness(self):
-        basePosition = p.getBasePositionAndOrientation(self.robotId)[0]
-        x = basePosition[0]  # How far it made it through the grid
-
+        base_position = p.getBasePositionAndOrientation(self.robotId)[0]
+        x = base_position[0]  # Forward progress
+        y = base_position[1]  # Side movement
         time_elapsed = time.time() - self.start_time
 
-        # Combined fitness: distance minus time penalty
-        alpha = 0.05
-        fitness = x - alpha * time_elapsed
+        # Collision penalty
+        collision_penalty = len(self.collision_list) * 0.001
 
-        # Save to fitness file
-        tmpFile = f"tmp{self.solutionID}.txt"
-        finalFile = f"fitness{self.solutionID}.txt"
-        with open(tmpFile, "w") as f:
-            f.write(str(fitness))
-        os.rename(tmpFile, finalFile)
+        # Encourage forward progress, discourage wide side-wobbling
+        forward_progress = x
+        lateral_penalty = abs(y) * 0.1  # Penalize side drifting
 
-        # Print useful info
-        print(f"Robot {self.solutionID} → Distance: {x:.3f}, Time: {time_elapsed:.2f}s, Fitness: {fitness:.3f}")
+        # Less time pressure, still encourages speed
+        alpha = 0.01  # Time penalty factor
 
-        # Log all info for plotting
-        with open("fitness_log.csv", "a") as log:
-            log.write(f"{self.solutionID},{x},{time_elapsed},{fitness}\n")
+        self.fitness = forward_progress - lateral_penalty - alpha * time_elapsed - collision_penalty
 
-
+        with open(f"fitness{self.solutionID}.txt", "w") as f:
+            f.write(str(self.fitness))
 
 
 

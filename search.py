@@ -1,14 +1,18 @@
-import os 
-from parallelHillClimber import PARALLEL_HILL_CLIMBER 
+import os
+from parallelHillClimber import PARALLEL_HILL_CLIMBER
 from generate import Create_World
+import constants as c
 
-#for i in range(5):
-#	os.system("py generate.py")
-#	os.system("py simulate.py")
+# Wipe old fitness log
+if os.path.exists("fitness_log.csv"):
+    os.remove("fitness_log.csv")
 
 Create_World()
 
 phc = PARALLEL_HILL_CLIMBER()
-phc.Evolve()
+
+for gen in range(c.numberOfGenerations):
+    print(f"--- Generation {gen} ---")
+    phc.Evolve_For_One_Generation()
 
 phc.Show_Best()
