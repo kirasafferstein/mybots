@@ -9,8 +9,10 @@ from pyrosim.neuralNetwork import NEURAL_NETWORK
 import time
 
 class ROBOT:
-    def __init__(self, solutionID, bodyFile):
+    def __init__(self, solutionID, bodyFile, fitnessType="A", cleanup=True):
         self.solutionID = solutionID
+        self.fitnessType = fitnessType  # Set the fitness strategy (A or B)
+
         self.robotId = p.loadURDF(bodyFile)
         pyrosim.Prepare_To_Simulate(self.robotId)
 
@@ -23,11 +25,12 @@ class ROBOT:
         self.distance_readings = []
         self.sensor_links_to_check = ['Torso', 'FrontLeg', 'BackLeg']  # Robot links
 
-
         # Delete the brain file after loading
-        # Clean up input files 
-        os.remove(f"brain{solutionID}.nndf")
-        os.remove(bodyFile)  # Cleanup line
+        # os.remove(f"brain{solutionID}.nndf")
+        # os.remove(bodyFile)  # Cleanup line
+        if cleanup:
+          os.remove(f"brain{solutionID}.nndf")
+          os.remove(bodyFile)
 
     def Prepare_To_Sense(self):
         self.sensors = {}
@@ -104,17 +107,27 @@ class ROBOT:
         # Collision penalty
         collision_penalty = len(self.collision_list) * 0.001
 
-        # Encourage forward progress, discourage wide side-wobbling
+        # Time penalty factor (same for both functions)
+        alpha = 0.01
+
+        # Choose fitness function
+        if self.fitnessType == "A":
+            lateral_penalty = abs(y) * 0.1  # Stricter on sideways
+        elif self.fitnessType == "B":
+            lateral_penalty = abs(y) * 0.02  # More flexible sideways
+        else:
+            lateral_penalty = abs(y) * 0.1  # Default to A if unknown
+
         forward_progress = x
-        lateral_penalty = abs(y) * 0.1  # Penalize side drifting
-
-        # Less time pressure, still encourages speed
-        alpha = 0.01  # Time penalty factor
-
         self.fitness = forward_progress - lateral_penalty - alpha * time_elapsed - collision_penalty
 
+        # Log fitness calculation
+        print(f"[{self.fitnessType}] Fitness: {self.fitness:.3f} | x: {x:.2f}, y: {y:.2f}, time: {time_elapsed:.2f}, collisions: {len(self.collision_list)}")
+
+        # Save fitness to file
         with open(f"fitness{self.solutionID}.txt", "w") as f:
             f.write(str(self.fitness))
+
 
 
 

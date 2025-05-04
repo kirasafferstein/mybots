@@ -19,6 +19,9 @@ else:
 bodyFile = sys.argv[3] if len(sys.argv) > 3 else "body.urdf"
 worldFile = sys.argv[4] if len(sys.argv) > 4 else "world.sdf"
 
+# Get fitness type from CLI
+fitnessType = sys.argv[5] if len(sys.argv) > 5 else "A"
+
 # Pass all to the simulation
 sim = SIMULATION(directOrGUI, solutionID, bodyFile, worldFile)
 sim.Run()
