@@ -29,11 +29,14 @@ class MOTOR:
         #targetLocation = self.motorValues[desiredAngle]
         #print(f"Setting motor value for {self.jointName} (index {self.jointIndex}) to {desiredAngle}")
 
+        clamped = max(min(desiredAngle, 0.6), -0.6)  # Limit to joint range
+        #print(f"{self.jointName}: desired={desiredAngle:.2f} → clamped={clamped:.2f}")  # ← accurate log
         
         p.setJointMotorControl2(
             bodyIndex=robotId,
             jointIndex=self.jointIndex,
             controlMode=p.POSITION_CONTROL,
-            targetPosition=desiredAngle,
-            force=c.MOTOR_MAX_FORCE
-        )
+            targetPosition=clamped,
+            force=c.MOTOR_MAX_FORCE,
+            maxVelocity=5.0  # Let the robot move faster
+    )

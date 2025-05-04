@@ -18,7 +18,10 @@ class SOLUTION:
         self.Create_Brain()
 
         #print(f"Launching simulate.py for solution {self.myID}")
-        os.system(f"start /B py simulate.py {directOrGUI} {self.myID} {self.bodyFileName} {self.worldFileName}")
+        if directOrGUI == "GUI":
+            os.system(f"start cmd /K py simulate.py GUI {self.myID} {self.bodyFileName} {self.worldFileName}")
+        else:
+            os.system(f"start /B py simulate.py DIRECT {self.myID} {self.bodyFileName} {self.worldFileName}")
 
 
     def Wait_For_Simulation_To_End(self):
@@ -43,8 +46,8 @@ class SOLUTION:
         self.myID = newID
 
     def Mutate(self):
-        mutation_rate = 0.2  # 5% chance per synapse
-        mutation_strength = 0.3  # smaller jumps
+        mutation_rate = 0.3  # 5% chance per synapse
+        mutation_strength = 0.4  # smaller jumps
 
         for r in range(self.weights.shape[0]):
             for c in range(self.weights.shape[1]):

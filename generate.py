@@ -17,7 +17,7 @@ def Create_World():
 	for row in range(grid_rows):
 		for col in range(grid_cols):
 			x = row * spacing + 4 # Start infront of robot
-			y = (col - grid_cols // 2) * spacing
+			y = (col - grid_cols // 2) * spacing + spacing / 2
 			z = 0.5
 			pyrosim.Send_Cube(name=f"Obstacle_{row}_{col}", pos=[x,y,z], size =[1,1,1])
 
