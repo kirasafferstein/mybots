@@ -50,8 +50,12 @@ class SIMULATION:
 
             if self.directOrGUI == "GUI":
                 time.sleep(c.TIME_STEP)
+        
+        #start_pos = p.getBasePositionAndOrientation(self.robot.robotId)[0]
+        #print(f"[DEBUG] Start Pos: {start_pos} | Orientation: {start_ori}")
 
-        # 🧱 If robot didn’t exit early, set to max time
+
+        # If robot didn’t exit early, set to max time
         if not hasattr(self.robot, "current_time_step"):
             self.robot.current_time_step = c.SIMULATION_STEPS
 

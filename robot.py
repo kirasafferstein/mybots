@@ -78,8 +78,8 @@ class ROBOT:
             self.distance_readings.append((linkName, distance))
 
             # Optionally overwrite sensor reading with distance
-            if linkName in self.sensors:
-                self.sensors[linkName].value = distance
+            #if linkName in self.sensors:
+                #self.sensors[linkName].value = distance
 
     def Think(self):
         self.nn.Update()
@@ -99,27 +99,21 @@ class ROBOT:
             numpy.save(f"data/{jointName}_motorValues.npy", motor.motorValues)
 
     def Get_Fitness(self):
+        print(f"[DEBUG] Fitness Type: {self.fitnessType}")
+
         base_position = p.getBasePositionAndOrientation(self.robotId)[0]
         x = base_position[0]  # Forward progress
         y = base_position[1]  # Side movement
         time_elapsed = time.time() - self.start_time
 
-        # Collision penalty
-        collision_penalty = len(self.collision_list) * 0.001
+        forward_progress = -x  # We want large X
 
-        # Time penalty factor (same for both functions)
-        alpha = 0.01
-
-        # Choose fitness function
-        if self.fitnessType == "A":
-            lateral_penalty = abs(y) * 0.1  # Stricter on sideways
-        elif self.fitnessType == "B":
-            lateral_penalty = abs(y) * 0.02  # More flexible sideways
-        else:
-            lateral_penalty = abs(y) * 0.1  # Default to A if unknown
-
-        forward_progress = x
-        self.fitness = forward_progress - lateral_penalty - alpha * time_elapsed - collision_penalty
+        self.fitness = (
+            5.0 * forward_progress
+            - 0.1 * abs(y)
+            - 0.005 * time_elapsed
+            - 0.0002 * len(self.collision_list)
+        )
 
         # Log fitness calculation
         print(f"[{self.fitnessType}] Fitness: {self.fitness:.3f} | x: {x:.2f}, y: {y:.2f}, time: {time_elapsed:.2f}, collisions: {len(self.collision_list)}")

@@ -25,9 +25,10 @@ MOTOR_MAX_FORCE = 150
 
 #numberOfGenerations = 15
 #populationSize = 15
-numberOfGenerations = 5
+numberOfGenerations = 8
+populationSize = 8
 
-populationSize = 5
+FITNESS_TYPE = "B"
 
 numSensorNeurons = 9  # Number of sensor neurons
 numMotorNeurons = 8   # Number of motor neurons

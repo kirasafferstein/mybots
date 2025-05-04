@@ -16,7 +16,7 @@ def Create_World():
 
 	for row in range(grid_rows):
 		for col in range(grid_cols):
-			x = row * spacing + 4 # Start infront of robot
+			x = -row * spacing - 4 # Start infront of robot
 			y = (col - grid_cols // 2) * spacing + spacing / 2
 			z = 0.5
 			pyrosim.Send_Cube(name=f"Obstacle_{row}_{col}", pos=[x,y,z], size =[1,1,1])
@@ -27,7 +27,7 @@ def Generate_Body():
 	pyrosim.Start_URDF("body.urdf")
 	
 	# Create torso
-	pyrosim.Send_Cube(name="Torso", pos=[1.5, 0.0, 1.5], size=[1,1,1])
+	pyrosim.Send_Cube(name="Torso", pos=[0, 0.0, 1.0], size=[1,1,1])
 	
 	# Create joints to connect torso and BackLeg
 	pyrosim.Send_Joint( name = "Torso_BackLeg" , parent= "Torso" , child = "BackLeg", type = "revolute", position = [1.0,0,1.0], jointAxis= "1 0 0")

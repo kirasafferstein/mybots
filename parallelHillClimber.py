@@ -52,7 +52,7 @@ class PARALLEL_HILL_CLIMBER:
             s.Wait_For_Simulation_To_End()
 
     def Select(self):
-        best_key = min(self.parents, key=lambda k: self.parents[k].fitness)
+        best_key = max(self.parents, key=lambda k: self.parents[k].fitness)
         best_parent = self.parents[best_key]  # save best
 
         for key in self.parents:
@@ -68,10 +68,21 @@ class PARALLEL_HILL_CLIMBER:
 
     def Log_Best_Fitness(self):
         best_fitness = max(parent.fitness for parent in self.parents.values())
-        with open("fitness_log.csv", "a") as f:
+
+        # Determine file name based on fitness type
+        suffix = "A" if c.FITNESS_TYPE == "A" else "B"
+        filename = f"fitness_log_{suffix}.csv"
+
+        with open(filename, "a") as f:
             f.write(f"{best_fitness}\n")
 
     def Show_Best(self):
-        best = min(self.parents.values(), key=lambda p: p.fitness)
+        best = max(self.parents.values(), key=lambda p: p.fitness)
         print(f"The best fitness found was: {best.fitness}")
+        print(f"The best robot ID was: {best.myID}")
+        
+        # Save robot ID, body file, and world file for simulate.py
+        with open("best_robot_info.txt", "w") as f:
+            f.write(f"{best.myID},body{best.myID}.urdf,world{best.myID}.sdf\n")
+        
         best.Start_Simulation("GUI")
